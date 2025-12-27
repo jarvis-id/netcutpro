@@ -23,13 +23,12 @@ jobs:
 
       - name: Build APK
         run: |
-          # Hapus sisa build lama agar bersih
-          buildozer android clean
-          # Jalankan build debug
+          # JANGAN gunakan buildozer android clean di sini
+          # Langsung jalankan build
           yes | buildozer android debug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: netcutter-apk-64bit
+          name: netcutter-apk-A33-compatible
           path: bin/*.apk
