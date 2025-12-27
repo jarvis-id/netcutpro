@@ -1,0 +1,16 @@
+name: Build Android APK
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build APK with Buildozer
+        uses: ArtemSerebrennikov/buildozer-action@v1
+        with:
+          command: buildozer android debug
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: netcutter-debug-apk
+          path: bin/*.apk
