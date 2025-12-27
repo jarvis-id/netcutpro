@@ -1,16 +1,24 @@
 name: Build Android APK
 on: [push]
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Build APK with Buildozer
-        uses: ArtemSerebrennikov/buildozer-action@v1
+        uses: ArtemSBulgakov/buildozer-action@v1
+        id: buildozer
         with:
           command: buildozer android debug
-      - name: Upload APK
-        uses: actions/upload-artifact@v2
+          buildozer_version: stable
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: netcutter-debug-apk
+          name: netcutter-apk
+          # Path ini otomatis mengambil hasil build dari buildozer
           path: bin/*.apk
