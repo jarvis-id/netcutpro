@@ -17,39 +17,19 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt update
-          sudo apt install -y \
-            git \
-            zip \
-            unzip \
-            openjdk-17-jdk \
-            python3-pip \
-            autoconf \
-            automake \
-            libtool \
-            pkg-config \
-            zlib1g-dev \
-            libncurses-dev \
-            libffi-dev \
-            libssl-dev \
-            cmake \
-            gettext \
-            libtinfo6 \
-            libltdl-dev \
-            m4 \
-            build-essential \
-            ccache
-
+          sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf automake libtool pkg-config zlib1g-dev libncurses-dev libffi-dev libssl-dev cmake gettext libtinfo6 libltdl-dev m4 build-essential ccache
           pip3 install --user --upgrade Cython==0.29.33 buildozer
           echo "/home/runner/.local/bin" >> $GITHUB_PATH
 
       - name: Build APK
         run: |
-          # yes | digunakan untuk menyetujui semua lisensi SDK
-          # log_level = 2 ditambahkan agar jika error lagi, kita bisa melihat detailnya
+          # Hapus sisa build lama agar bersih
+          buildozer android clean
+          # Jalankan build debug
           yes | buildozer android debug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: netcutter-apk
+          name: netcutter-apk-64bit
           path: bin/*.apk
